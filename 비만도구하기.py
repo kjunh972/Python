@@ -1,5 +1,5 @@
 weight = float(input("현제체중 입력해주세요 : "))
-standardweight = float(input("표준체중을 입력해주세요(표준체중을 모르면 0을 입력하세요.) : "))
+standardweight = float(input("표준체중을 입력해주세요.(표준체중을 모르면 0을 입력하세요.) : "))
 
 if (standardweight == 0):
     height = float(input("키를 입력하세요 : "))
