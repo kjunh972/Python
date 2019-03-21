@@ -1,22 +1,26 @@
-from random import * #랜덤 
+from random import * #랜덤
 
 year=0  #날짜
 month=0
 week=0
 day=1
+tax=0   #세금
 coin=1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000   #돈
-apple = randint(10,coin*100)    #아이템 시세변경
-desk = randint(10,coin*100)
-ball = randint(10,coin*100)
-book = randint(10,coin*100)
-ruler = randint(10,coin*100)
-balloon = randint(10,coin*100)
-gloves = randint(10,coin*100)
+apple = randint(10,coin*10)    #아이템 시세변경
+desk = randint(10,coin*10)
+ball = randint(10,coin*10)
+book = randint(10,coin*10)
+ruler = randint(10,coin*10)
+balloon = randint(10,coin*10)
+gloves = randint(10,coin*10)
 items = list()  #보유중인 아이템을 출력할때 사용할 배열
 House = ['일반아파트','고급아파트','삼호상가','고급상가','고급빌딩','쌍둥이빌딩','고급쌍둥이빌딩'] #부동산이름
 BuyHouse = list()
+invList = ['광은','심송','으튜브','내이버','더음','규글',]  #투자할수 있는 회사이름
+#밑에는 투자할수 있는 회사 시세
+invMarket= [randint(1000000,10000000), randint(100000,10000000), randint(100000,10000000), randint(100000,10000000), randint(100000,100000000), randint(100000,1000000000)]
 #밑에 있는것은 부동산건물 가격시세
-HouseMarket = [randint(100000,1000000), randint(1000000,1000000000), randint(1000000000,100000000000), randint(100000000000,10000000000000), randint(10000000000000,1000000000000000), randint(1000000000000000,100000000000000000), randint(100000000000000000,10000000000000000000)]
+HouseMarket = [randint(100000,1000000), randint(1000000,10000000), randint(10000000,100000000), randint(100000000,1000000000), randint(1000000000,10000000000), randint(10000000000,100000000000), randint(100000000000,1000000000000)]
 HouseCount = 0  #부동산 구매 제한. 부동산은 3개까지 구매가능하다.
 
 while(1):
@@ -35,14 +39,11 @@ while(1):
     print("현재", year,"년, ",month,"월, ", week,"주, ", day,"일 입니다.")
     print("현재 팡운코인은 ",coin,"코인입니다.")
 
-    sel = input("\"도움말\", \"팡운코인확인\", \"시세확인\", \"보유중인아이템\", \"다음날\", \"아이템구매\", \"아이템판매\", \"부동산\" 그만 하실려면 \"0\"을 입력해주세요... ")
+    sel = input("\"도움말\", \"시세확인\", \"보유중인아이템\", \"다음날\", \"아이템구매\", \"아이템판매\", \"부동산\", \"투자\" 그만 하실려면 \"0\"을 입력해주세요... ")
     if sel=="도움말":
         print("도움말")
     elif (sel=="0"):
         break
-    elif (sel=="팡운코인확인"):
-        print("현재 팡운코인은 ",coin,"코인입니다.")
-        continue
     elif (sel=="시세확인"):
         print("사과 : ",apple,"코인입니다.")
         print("책상 : ",desk,"코인입니다.")
@@ -73,7 +74,8 @@ while(1):
         ruler = randint(10,coin*100)
         balloon = randint(10,coin*100)
         gloves = randint(10,coin*100)
-        HouseMarket = [randint(100000,1000000), randint(1000000,1000000000), randint(1000000000,100000000000), randint(100000000000,10000000000000), randint(10000000000000,1000000000000000), randint(1000000000000000,100000000000000000), randint(100000000000000000,10000000000000000000), ]
+        invMarket= [randint(1000000,10000000), randint(100000,10000000), randint(100000,10000000), randint(100000,10000000), randint(100000,100000000), randint(100000,1000000000)]
+        HouseMarket = [randint(100000,1000000), randint(1000000,10000000), randint(10000000,100000000), randint(100000000,1000000000), randint(1000000000,10000000000), randint(10000000000,100000000000), randint(100000000000,1000000000000)]
         print("하루가 지납니다.")
     elif (sel=="아이템구매"):
         if len(items)==6:   #아이템 6개까지 구매가능
@@ -165,7 +167,9 @@ while(1):
         ruler = randint(10,coin*100)
         balloon = randint(10,coin*100)
         gloves = randint(10,coin*100)
-        HouseMarket = [randint(100000,1000000), randint(1000000,1000000000), randint(1000000000,100000000000), randint(100000000000,10000000000000), randint(10000000000000,1000000000000000), randint(1000000000000000,100000000000000000), randint(100000000000000000,10000000000000000000)]
+        invMarket= [randint(1000000,10000000), randint(100000,10000000), randint(100000,10000000), randint(100000,10000000), randint(100000,100000000), randint(100000,1000000000)]
+        HouseMarket = [randint(100000,1000000), randint(1000000,10000000), randint(10000000,100000000), randint(100000000,1000000000), randint(1000000000,10000000000), randint(10000000000,100000000000), randint(100000000000,1000000000000)]
+
     elif (sel=="아이템판매"):
         sell = input("판매할 아이템을 입력해주세요... ")
 
@@ -175,6 +179,8 @@ while(1):
             except: #해당아이템이없으면
                 print("해당 아이템이 없습니다")
                 continue
+            tax = apple//5  #세금 계산
+            apple-=tax
             coin+=apple
             print("판매를 완료하였습니다.")
         elif sell == "책상":
@@ -183,6 +189,8 @@ while(1):
             except:
                 print("해당 아이템이 없습니다")
                 continue
+            tax = apple//5  #세금 계산
+            apple-=tax
             coin+=desk
             print("판매를 완료하였습니다.")
         elif sell == "공":
@@ -191,6 +199,8 @@ while(1):
             except:
                 print("해당 아이템이 없습니다")
                 continue
+            tax = apple//5  #세금 계산
+            apple-=tax
             coin+=ball
             print("판매를 완료하였습니다.")
         elif sell == "책":
@@ -199,6 +209,8 @@ while(1):
             except:
                 print("해당 아이템이 없습니다")
                 continue
+            tax = apple//5  #세금 계산
+            apple-=tax
             coin+=book
             print("판매를 완료하였습니다.")
         elif sell == "자":
@@ -207,6 +219,8 @@ while(1):
             except:
                 print("해당 아이템이 없습니다")
                 continue
+            tax = apple//5  #세금 계산
+            apple-=tax
             coin+=ruler
             print("판매를 완료하였습니다.")
         elif sell == "풍선":
@@ -215,6 +229,8 @@ while(1):
             except:
                 print("해당 아이템이 없습니다")
                 continue
+            tax = apple//5  #세금 계산
+            apple-=tax
             coin+=balloon
             print("판매를 완료하였습니다.")
         elif sell == "장갑":
@@ -223,6 +239,8 @@ while(1):
             except:
                 print("해당 아이템이 없습니다")
                 continue
+            tax = apple//5  #세금 계산
+            apple-=tax
             coin+=gloves
             print("판매를 완료하였습니다.")
         else:
@@ -236,7 +254,8 @@ while(1):
         ruler = randint(10,coin*100)
         balloon = randint(10,coin*100)
         gloves = randint(10,coin*100)
-        HouseMarket = [randint(100000,1000000), randint(1000000,1000000000), randint(1000000000,100000000000), randint(100000000000,10000000000000), randint(10000000000000,1000000000000000), randint(1000000000000000,100000000000000000), randint(100000000000000000,10000000000000000000)]
+        invMarket= [randint(1000000,10000000), randint(100000,10000000), randint(100000,10000000), randint(100000,10000000), randint(100000,100000000), randint(100000,1000000000)]
+        HouseMarket = [randint(100000,1000000), randint(1000000,10000000), randint(10000000,100000000), randint(100000000,1000000000), randint(1000000000,10000000000), randint(10000000000,100000000000), randint(100000000000,1000000000000)]
     elif sel=="부동산":
         print()
         print()
@@ -251,12 +270,15 @@ while(1):
 
             houseBuy = input("구매하고싶은 건물을 입력해주세요... ")
 
-            count=0 #몇개 중복됐는지 계산
+            houseCount=0 #몇개 중복됐는지 계산
             for i in range(0,len(BuyHouse)):  
-                if houseBuy==BuyHouse[i]:       #같은건물이 발견되면 경고문장
-                    print("같은 건물을 소유하고 계십니다. 같은 건물은 구매 불가능합니다.")
-                    continue
-
+                if houseBuy==BuyHouse[i]:       #같은건물이 발견되면 경고문장 count
+                    houseCount+=1
+            
+            if houseCount>0:       #count가 0보다 크면 에러문장 출력
+                print("같은 건물을 소유하고 계십니다. 같은 건물은 구매 불가능합니다.")
+                continue
+                    
             countHouse = 0  #건물이 존재하는지 안하는지 확인하는 변수
             for k in range (0,len(House)):
                 if houseBuy==House[k]: #입력한 건물이랑 존재하는 건물이름이랑 같으면
@@ -283,8 +305,9 @@ while(1):
             ruler = randint(10,coin*100)
             balloon = randint(10,coin*100)
             gloves = randint(10,coin*100)
-            HouseMarket = [randint(100000,1000000), randint(1000000,1000000000), randint(1000000000,100000000000), randint(100000000000,10000000000000), randint(10000000000000,1000000000000000), randint(1000000000000000,100000000000000000), randint(100000000000000000,10000000000000000000)]
-      
+            invMarket= [randint(1000000,10000000), randint(100000,10000000), randint(100000,10000000), randint(100000,10000000), randint(100000,100000000), randint(100000,1000000000)]
+            HouseMarket = [randint(100000,1000000), randint(1000000,10000000), randint(10000000,100000000), randint(100000000,1000000000), randint(1000000000,10000000000), randint(10000000000,100000000000), randint(100000000000,1000000000000)]
+
         elif house=="부동산판매":
             if len(BuyHouse)==0:
                 print("건물을 소유하고 있지 않습니다.")
@@ -316,13 +339,30 @@ while(1):
             ruler = randint(10,coin*100)
             balloon = randint(10,coin*100)
             gloves = randint(10,coin*100)
-            HouseMarket = [randint(100000,1000000), randint(1000000,1000000000), randint(1000000000,100000000000), randint(100000000000,10000000000000), randint(10000000000000,1000000000000000), randint(1000000000000000,100000000000000000), randint(100000000000000000,10000000000000000000)]
+            invMarket= [randint(1000000,10000000), randint(100000,10000000), randint(100000,10000000), randint(100000,10000000), randint(100000,100000000), randint(100000,1000000000)]
+            HouseMarket = [randint(100000,1000000), randint(1000000,10000000), randint(10000000,100000000), randint(100000000,1000000000), randint(1000000000,10000000000), randint(10000000000,100000000000), randint(100000000000,1000000000000)]
 
         elif house=="소유건물목록":
             if len(BuyHouse)==0:
                     print("가지고 있는 건물이 없습니다.")
             for i in range (0,len(BuyHouse)):
                 print(BuyHouse[i])
+        
+        elif house=="뒤로가기":
+            print("뒤로갔습니다.")
+            continue
+        
+        else:
+            print("오타입니다.")
+            continue
+
+    elif sel=="투자":
+        inv = input("\"투자시세\", \"투자하기\", \"투자목록\", \"악마의유혹\", \"뒤로가기\"중 하나를 입력해주세요... ")
+        
+        if inv=="투자시세":
+            for i in range(0,len(invList)):
+                print(invList[i],end='   ')
+                print(invMarket[i],"코인")
 
     else:   #오타이면 출력
         print()
