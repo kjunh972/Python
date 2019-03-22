@@ -1,4 +1,4 @@
-from random import * #랜덤
+from random import * #랜덤  
 
 year=0  #날짜
 month=0
@@ -24,6 +24,7 @@ HouseMarket = [randint(100000,1000000), randint(1000000,10000000), randint(10000
 HouseCount = 0  #부동산 구매 제한. 부동산은 3개까지 구매가능하다.
 
 while(1):
+
     if day==8:      #날짜지날수있게
         day = 1
         week+=1
@@ -108,7 +109,6 @@ while(1):
                 if count==2:
                     print("같은 아이템을 3개까지 구매가능합니다.")
                     continue
-
                 print(buy,"를(을) 구매 완료했습니다.")
                 coin-=desk
                 items.append("책상")
@@ -179,7 +179,7 @@ while(1):
             except: #해당아이템이없으면
                 print("해당 아이템이 없습니다")
                 continue
-            tax = apple//5  #세금 계산
+            tax = apple//5  #세금 계산 #세금은 20%
             apple-=tax
             coin+=apple
             print("판매를 완료하였습니다.")
@@ -189,8 +189,8 @@ while(1):
             except:
                 print("해당 아이템이 없습니다")
                 continue
-            tax = apple//5  #세금 계산
-            apple-=tax
+            tax = desk//5  #세금 계산
+            desk-=tax
             coin+=desk
             print("판매를 완료하였습니다.")
         elif sell == "공":
@@ -199,8 +199,8 @@ while(1):
             except:
                 print("해당 아이템이 없습니다")
                 continue
-            tax = apple//5  #세금 계산
-            apple-=tax
+            tax = ball//5  #세금 계산
+            ball-=tax
             coin+=ball
             print("판매를 완료하였습니다.")
         elif sell == "책":
@@ -209,8 +209,8 @@ while(1):
             except:
                 print("해당 아이템이 없습니다")
                 continue
-            tax = apple//5  #세금 계산
-            apple-=tax
+            tax = book//5  #세금 계산
+            book-=tax
             coin+=book
             print("판매를 완료하였습니다.")
         elif sell == "자":
@@ -219,8 +219,8 @@ while(1):
             except:
                 print("해당 아이템이 없습니다")
                 continue
-            tax = apple//5  #세금 계산
-            apple-=tax
+            tax = ruler//5  #세금 계산
+            ruler-=tax
             coin+=ruler
             print("판매를 완료하였습니다.")
         elif sell == "풍선":
@@ -229,8 +229,8 @@ while(1):
             except:
                 print("해당 아이템이 없습니다")
                 continue
-            tax = apple//5  #세금 계산
-            apple-=tax
+            tax = balloon//5  #세금 계산
+            balloon-=tax
             coin+=balloon
             print("판매를 완료하였습니다.")
         elif sell == "장갑":
@@ -239,8 +239,8 @@ while(1):
             except:
                 print("해당 아이템이 없습니다")
                 continue
-            tax = apple//5  #세금 계산
-            apple-=tax
+            tax = gloves//5  #세금 계산
+            gloves-=tax
             coin+=gloves
             print("판매를 완료하였습니다.")
         else:
@@ -283,7 +283,6 @@ while(1):
             for k in range (0,len(House)):
                 if houseBuy==House[k]: #입력한 건물이랑 존재하는 건물이름이랑 같으면
                     countHouse+=1   #countHouse +1
-                    BuyHouse.append(houseBuy)
             if countHouse==0:   #입력한 건물이랑 존재하는 건물이랑 같으면 countHouse가 +1되는데 0인것은 존재하는 아파트가 아니니
                 print("존재하지않는 건물입니다.")
                 continue
@@ -293,6 +292,7 @@ while(1):
                     if (coin>HouseMarket[i]):   #건물코인보다 보유한 코인이 더 많다면
                         HouseCount+=1   #HouseCount가 3까지만 구매 가능. 건물 구매제한을 위해 구매할때마다 1씩 늘어남
                         coin-=HouseMarket[i] #가지고 있는 코인에서 건물코인을 뺀다
+                        BuyHouse.append(houseBuy)
                         print(House[i],"가 구매 완료되었습니다.")
                     else:
                         print("돈이 부족합니다.")
@@ -322,14 +322,20 @@ while(1):
                 print("존재하지않는 건물입니다.")
                 continue
 
-            for i in range (0,len(BuyHouse)):
-                if houseSell==BuyHouse[i]: #입력한 건물이름이랑 현재 존재하는 이름이 같다면
-                    coin+=HouseMarket[i]
-                    HouseCount-=1
-                    print(House[i],"가 판매 완료되었습니다.")
-                else:
-                    print("해당아파트를 소유하고 있지 않습니다.")
-                    continue
+            for k in range (0, len(BuyHouse)):
+                for i in range (0,len(House)):
+                    if BuyHouse[k]==House[i]:
+                        if houseSell==BuyHouse[k]: #입력한 건물이름이랑 현재 존재하는 이름이 같다면
+                            tax = HouseMarket[i]//5
+                            HouseMarket[i]-=tax
+                            coin+=HouseMarket[i]
+                            HouseCount-=1
+                            print(BuyHouse[k],"가 판매 완료되었습니다.")
+                            BuyHouse.remove(houseSell)
+                            break
+                        else:
+                            print("해당아파트를 소유하고 있지 않습니다.")
+                            continue
             
             day+=1                          #판매만하면 하루가 안지나서 이렇게 해야함
             apple = randint(10,coin*100)
@@ -363,6 +369,31 @@ while(1):
             for i in range(0,len(invList)):
                 print(invList[i],end='   ')
                 print(invMarket[i],"코인")
+        elif inv=="투자하기":
+            invBuy = input("투자하고 싶은 회사이름을 입력해주세요... ")
+
+            invCount=0  #입력한회사가 존재하는지 카운트
+            for i in range(0,len(invList)): #카운트계산
+                if invBuy==invList[i]:
+                    invCount+=1
+            if invCount<1:  #카운트가 0이면 존재하지않는 회사
+                print("존재하지않는 회사입니다.")
+                continue
+            
+
+
+            day+=1                          #투자만하면 하루가 안지나서 이렇게 해야함
+            apple = randint(10,coin*100)
+            desk = randint(10,coin*100)
+            ball = randint(10,coin*100)
+            book = randint(10,coin*100)
+            ruler = randint(10,coin*100)
+            balloon = randint(10,coin*100)
+            gloves = randint(10,coin*100)
+            invMarket= [randint(1000000,10000000), randint(100000,10000000), randint(100000,10000000), randint(100000,10000000), randint(100000,100000000), randint(100000,1000000000)]
+            HouseMarket = [randint(100000,1000000), randint(1000000,10000000), randint(10000000,100000000), randint(100000000,1000000000), randint(1000000000,10000000000), randint(10000000000,100000000000), randint(100000000000,1000000000000)]
+
+
 
     else:   #오타이면 출력
         print()
