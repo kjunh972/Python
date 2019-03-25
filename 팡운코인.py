@@ -5,7 +5,7 @@ month=0
 week=0
 day=1
 tax=0   #세금
-coin=1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000   #돈
+coin=100   #돈
 apple = randint(10,coin*10)    #아이템 시세변경
 desk = randint(10,coin*10)
 ball = randint(10,coin*10)
@@ -19,11 +19,36 @@ BuyHouse = list()
 invList = ['광은','심송','으튜브','내이버','더음','규글',]  #투자할수 있는 회사이름
 #밑에는 투자할수 있는 회사 시세
 invMarket= [randint(1000000,10000000), randint(100000,10000000), randint(100000,10000000), randint(100000,10000000), randint(100000,100000000), randint(100000,1000000000)]
+invCompList = list()    #투자한 회사이름
+invBuyList = list()     #투자한 금액
+invBuy = 0  #투자 할 가격
 #밑에 있는것은 부동산건물 가격시세
 HouseMarket = [randint(100000,1000000), randint(1000000,10000000), randint(10000000,100000000), randint(100000000,1000000000), randint(1000000000,10000000000), randint(10000000000,100000000000), randint(100000000000,1000000000000)]
 HouseCount = 0  #부동산 구매 제한. 부동산은 3개까지 구매가능하다.
 
 while(1):
+    if len(invBuyList) > 0: #투자한게 있다면
+        
+        if day==8:  #일주일이 지났다면
+            for i in range(0,len(invBuyList)):
+                invran = randint(0,3)   #성공또는 실패
+                
+                if invran == 0:
+                    print(invCompList[i],"회사의 ",invBuyList[i],"코인의 투자를 실패하였습니다.")
+                elif invran == 1:
+                    print(invCompList[i],"회사의 ",invBuyList[i],"코인의 투자를 실패하였습니다.")
+                elif invran == 2:
+                    print(invCompList[i],"회사의 ",invBuyList[i],"코인의 투자를 실패하였습니다.")
+                else:
+                    print(invCompList[i],"회사의 ",invBuyList[i],"코인의 투자를 성공하였습니다. 2배로 지불해드립니다.")
+                    invSuss = invBuyList[i] #배열에 가격을 받고
+                    
+                    invSuss*=2  #투자한금액 2배해서
+                    coin+=invSuss   #추가
+
+            
+                
+
 
     if day==8:      #날짜지날수있게
         day = 1
@@ -33,7 +58,7 @@ while(1):
         month+=1
     if month==13:
         month=1
-        year+=1    
+        year+=1 
 
     print()
     print()
@@ -370,18 +395,27 @@ while(1):
                 print(invList[i],end='   ')
                 print(invMarket[i],"코인")
         elif inv=="투자하기":
-            invBuy = input("투자하고 싶은 회사이름을 입력해주세요... ")
+            invComp = input("투자하고 싶은 회사이름을 입력해주세요... ")
 
-            invCount=0  #입력한회사가 존재하는지 카운트
+            invCompCount=0  #입력한회사가 존재하는지 카운트
             for i in range(0,len(invList)): #카운트계산
-                if invBuy==invList[i]:
-                    invCount+=1
-            if invCount<1:  #카운트가 0이면 존재하지않는 회사
+                if invComp==invList[i]:
+                    invCompCount+=1
+            if invCompCount<1:  #카운트가 0이면 존재하지않는 회사
                 print("존재하지않는 회사입니다.")
                 continue
             
-
-
+            try:    #투자할 금액 받기
+                invBuy = int(input("얼마를 투자하시겠습니까?... "))
+            except: #정수가 아닌 문자로 입력하면 경고문장 출력하기
+                print("정수로 입력해주세요.")
+                continue
+            
+            coin-=invBuy
+            print("투자를 완료하였습니다.")
+            invBuyList.append(invBuy)   #투자한 금액 배열추가
+            invCompList.append(invComp) #투자한 회사 배열제거
+            
             day+=1                          #투자만하면 하루가 안지나서 이렇게 해야함
             apple = randint(10,coin*100)
             desk = randint(10,coin*100)
