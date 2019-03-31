@@ -15,7 +15,8 @@ balloon = randint(10,coin*10)
 gloves = randint(10,coin*10)
 items = list()  #보유중인 아이템을 출력할때 사용할 배열
 House = ['일반아파트','고급아파트','삼호상가','고급상가','고급빌딩','쌍둥이빌딩','고급쌍둥이빌딩'] #부동산이름
-BuyHouse = list()
+BuyHouse = list()   #구매한 아파트 리스트
+recHouse = list()   #매주마다 건물에서 돈 받았을때 어디 건물에서 받았는지
 invList = ['광은','심송','으튜브','내이버','더음','규글',]  #투자할수 있는 회사이름
 invCompList = list()    #투자한 회사이름
 invBuyList = list()     #투자한 금액
@@ -48,13 +49,19 @@ while(1):
                     break
                 else:   #투자한게있으면 지움
                     del(invBuyList[len(invBuyList)-1])
-                    del(invCompList[len(invCompList)-1])
-                
-
+                    del(invCompList[len(invCompList)-1])               
 
     if day==8:      #날짜지날수있게
         day = 1
         week+=1
+
+        if HouseCount>0:    #건물을 가지고 있을때
+            for i in range(0,len(BuyHouse)):
+                tax = HouseMarket[recHouse[i]]//5   #세금 떼고
+                tax = tax//10   #그중 10%을 줌
+                coin += tax
+            print("소유하신 건물에서 코인을 얻었습니다.")
+            
     if week==5:
         week=1
         month+=1
@@ -69,19 +76,25 @@ while(1):
 
     sel = input("\"도움말\", \"시세확인\", \"보유중인아이템\", \"다음날\", \"아이템구매\", \"아이템판매\", \"부동산\", \"투자\" 그만 하실려면 \"0\"을 입력해주세요... ")
     if sel=="도움말":
+        print()
+        print()
         print("도움말 : 도움말을 확인합니다.")
         print("세금 : 아이템이나 건물을 판매할때나 투자에 성공했을때 받을 코인에서 세금20%를 떼어갑니다.")
         print("시세확인 : 아이템시세를 확인합니다.")
         print("보유중인아이템 : 보유중인 아이템을 확인합니다.")
         print("다음날 : 하루가 지납니다.")
-        print("아이템구매 : 아이템을 구매합니다. 3개까지 구매가능.")
+        print("아이템구매 : 아이템을 구매합니다. 6개까지 구매가능.")
         print("아이템판매 : 아이템을 판매합니다.")
-        print("부동산 : 집을 구매하실수 있습니다. 일주일마다 시세에서 10%씩 코인을 얻습니다.")
+        print("부동산 : 집을 구매하실수 있습니다. 일주일마다 시세에서 10%씩 코인을 얻습니다. 건물은 최대 3개까지 구매가능하고, 같은 건물을 구매하실수 없습니다.")
         print("투자 : 회사에 투자를 하실수 있습니다.일주일마다 투자에 성공했는지 실패 했는지 알수 있습니다.")
         print("부동산구매 : 건물을 구매합니다. 단 중복 구매는 불가능")
         print("부동산판매 : 건물을 판매합니다.")
         print("부동산시세 : 시세를 확인합니다.")
         print("소유건물목록 : 가지고 있는 건물을 확인합니다.")
+        print("투자가능한회사 : 투자 가능한 회사를 볼수 있습니다.")
+        print("투자하기 : 투자합니다")
+        print("투자목록 : 투자한 목록을 볼수 있습니다")
+        print("악마의유혹 : 투자했을때 성공할지 실패할지 알려주는데 진실로 알려줄수있고 거짓으로 알려줄수도 있습니다.")
 
     elif (sel=="0"):
         break
@@ -330,6 +343,7 @@ while(1):
                         HouseCount+=1   #HouseCount가 3까지만 구매 가능. 건물 구매제한을 위해 구매할때마다 1씩 늘어남
                         coin-=HouseMarket[i] #가지고 있는 코인에서 건물코인을 뺀다
                         BuyHouse.append(houseBuy)
+                        recHouse.append(i)
                         print(House[i],"가 구매 완료되었습니다.")
                     else:
                         print("돈이 부족합니다.")
